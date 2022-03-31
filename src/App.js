@@ -48,7 +48,8 @@ function App() {
         <article id="home" class="panel intro">
           <header>
             <h1>밸런스 게임</h1>
-            <p>밸런스 게임에 오신 것을 환영합니다 :)</p>
+            <p><img src="./images/pic01.jpg" alt="" />밸런스 게임에 오신 것을 환영합니다 :)</p>
+            
           </header>
           <a href="#" onClick={()=>changeTab(2)} class="jumplink pic">
             <span class="arrow icon solid fa-chevron-right"><span>See my work</span></span>

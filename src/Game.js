@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
 function Game() {
+    /**
+     * ** 데이터셋 가이드
+     * 1. quizSet 변수의 length갯수 만큼, friendsSet[n].answer 길이를 모두 동일하게 해주세요.
+     */
     const friendsSet = [
         {
             id: 0,

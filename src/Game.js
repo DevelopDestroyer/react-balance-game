@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Game() {
     /**
@@ -54,42 +54,82 @@ function Game() {
             option1: "1억받기",
             option2: "그냥살기",
         },
+        {
+            id: 3,
+            question: "당신은 감성적인가요 이성적인가요",
+            option1: "감성",
+            option2: "이성",
+        },        
     ];
     const [userData, setUserData] = useState({
         pivot: 0,
         answer: "",
         state: "GAME", /** GAME: 게임 중, COMPLETE: 게임 대기 중, RESULT: 결과화면 */
         friendId: null,
+        score: [],
+        rank1idx: null,
+        rank2idx: null,
     });
+
+    useEffect(() => {
+        if (userData.answer.length == quizSet.length) {
+            calculResult();
+        }
+    }, [userData.answer]);
     
     const selectOption = (answer) => {
         let nextPivot = userData.pivot;
         if (userData.pivot >= quizSet.length - 1) {
             setUserData((prevState) => ({
                 ...prevState,
+                answer: prevState.answer + answer + "",
                 state: "COMPLETE",
             }));
-
+            console.log("case1" + userData.answer);
             setTimeout(function() {
                 setUserData((prevState) => ({
                     ...prevState,
                     state: "RESULT",
                 }));
-              }, 3000);            
+              }, 3000);
         }
         else {
             nextPivot++;
+            setUserData((prevState) => ({
+                ...prevState,
+                answer: prevState.answer + answer + "",
+                pivot: nextPivot,
+            }));
         }
-        setUserData((prevState) => ({
-            ...prevState,
-            answer: prevState.answer + answer,
-            pivot: nextPivot,
-        }));
     }
 
     const calculResult = () => {
+        let resultArr = [];
+        for (let i = 0; i < friendsSet.length; i++) {
+            console.log(i + ": " + userData.answer + ", " + friendsSet[i].answer + " : " + hammingDistance(userData.answer, friendsSet[i].answer));
+            resultArr.push(hammingDistance(userData.answer, friendsSet[i].answer));
+        }
+        console.log("해밍디스턴스 결과");
+        console.log(resultArr);
 
+        setUserData((prevState) => ({
+            ...prevState,
+            score: resultArr,
+        }));
     }
+
+    const hammingDistance = (str1 = '', str2 = '') => {
+        if (str1.length !== str2.length) {
+           return 0;
+        }
+        let dist = 0;
+        for (let i = 0; i < str1.length; i += 1) {
+           if (str1[i] !== str2[i]) {
+              dist += 1;
+           };
+        };
+        return dist;
+     };    
 
     return (
         <article id="work" class="panel">
@@ -116,7 +156,7 @@ function Game() {
             {userData.state == "RESULT" && (
                 <>
                     <header>
-                        <h2>당신의 이상형은 *** 입니다 !</h2>
+                        <h2>당신의 이상형은 *** 입니다 ! { userData.score }</h2>
                     </header>
                     <p>
                         <br />

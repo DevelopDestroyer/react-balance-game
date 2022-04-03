@@ -9,6 +9,7 @@ function Game() {
         {
             id: 0,
             name: "이태호",
+            gender: "m",
             answer: "aaaa",
             photo: "1.jpg",
             introduce: "친구들 중에서 제일 개발을 잘해요",
@@ -16,6 +17,7 @@ function Game() {
         {
             id: 1,
             name: "추대윤",
+            gender: "m",
             answer: "aaab",
             photo: "2.jpg",
             introduce: "클라이밍 밖에 모르는 소심부끄남",
@@ -23,6 +25,7 @@ function Game() {
         {
             id: 2,
             name: "안재홍",
+            gender: "m",
             answer: "bbaa",
             photo: "3.jpg",
             introduce: "해산물 먹는걸 좋아해요",
@@ -30,10 +33,19 @@ function Game() {
         {
             id: 3,
             name: "이진영",
+            gender: "f",
             answer: "bbab",
             photo: "4.jpg",
             introduce: "마음씨도 착하고 디자인도 제일 잘하는 I인척하는 슈퍼 E",
         },
+        {
+            id: 4,
+            name: "최서진",
+            gender: "f",
+            answer: "bbbb",
+            photo: "4.jpg",
+            introduce: "마음씨도 착하고 디자인도 제일 잘하는 I인척하는 슈퍼 E",
+        },        
     ];
     const quizSet = [
         {
@@ -66,9 +78,12 @@ function Game() {
         answer: "",
         state: "GAME", /** GAME: 게임 중, COMPLETE: 게임 대기 중, RESULT: 결과화면 */
         friendId: null,
-        score: [],
-        rank1idx: null,
-        rank2idx: null,
+        scoreM: [], /** 해밍디스턴스 스코어 배열 */
+        matchingIdxM: [], /** 해밍디스턴스 최소값으로 매칭된 친구들의 배열인덱스값이 저장됨 */
+        matchingScoreM: null, /** 그 최소값으로 계산된 점수 */
+        scoreF: [],
+        matchingIdxF: [],
+        matchingScoreF: null,
     });
 
     useEffect(() => {
@@ -85,7 +100,6 @@ function Game() {
                 answer: prevState.answer + answer + "",
                 state: "COMPLETE",
             }));
-            console.log("case1" + userData.answer);
             setTimeout(function() {
                 setUserData((prevState) => ({
                     ...prevState,
@@ -104,17 +118,47 @@ function Game() {
     }
 
     const calculResult = () => {
-        let resultArr = [];
+        let resultArrM = [];
+        let resultArrF = [];
         for (let i = 0; i < friendsSet.length; i++) {
-            console.log(i + ": " + userData.answer + ", " + friendsSet[i].answer + " : " + hammingDistance(userData.answer, friendsSet[i].answer));
-            resultArr.push(hammingDistance(userData.answer, friendsSet[i].answer));
+            if (friendsSet[i].gender == "m") {
+                resultArrM.push(hammingDistance(userData.answer, friendsSet[i].answer));
+                resultArrF.push(1000000);
+            }
+            else {
+                resultArrF.push(hammingDistance(userData.answer, friendsSet[i].answer));
+                resultArrM.push(1000000);
+            }
+            
         }
-        console.log("해밍디스턴스 결과");
-        console.log(resultArr);
 
+        /** 해밍디스턴스 최소거리를 가진 값 탐색 */
+        let minM = Math.min.apply(null, resultArrM);
+        let minF = Math.min.apply(null, resultArrF);
+        let minArrM = [];
+        let minArrF = [];
+
+        /** 해밍디스턴스 최소거리를 가진 값을 가진 남자 친구들 정보 수집 */
+        for (let i = 0; i < resultArrM.length; i++) {
+            if (resultArrM[i] == minM) {
+                minArrM.push(i);
+            }
+        }
+        /** 해밍디스턴스 최소거리를 가진 값을 가진 여자 친구들 정보 수집 */
+        for (let i = 0; i < resultArrF.length; i++) {
+            if (resultArrF[i] == minF) {
+                minArrF.push(i);
+            }
+        }
+        
         setUserData((prevState) => ({
             ...prevState,
-            score: resultArr,
+            scoreM: resultArrM,
+            matchingIdxM: minArrM,
+            matchingScoreM: Math.floor(((quizSet.length - minM) / quizSet.length) * 100),
+            scoreF: resultArrF,
+            matchingIdxF: minArrF,
+            matchingScoreF: Math.floor(((quizSet.length - minF) / quizSet.length) * 100),            
         }));
     }
 
@@ -129,7 +173,46 @@ function Game() {
            };
         };
         return dist;
-     };    
+     };
+
+    const resultCardRendering = () => {
+        const result = [];
+        result.push(
+            <>
+                <h2>남자친구 이상형 결과</h2>
+                <br />
+            </>
+        );
+        for (let i = 0; i < userData.matchingIdxM.length; i++) {
+            result.push(
+                <>
+                    <div class="shadowContainer" key={friendsSet[userData.matchingIdxM[i]].id}>
+                        <h2>{friendsSet[userData.matchingIdxM[i]].name}</h2>
+                        <p>{friendsSet[userData.matchingIdxM[i]].introduce}</p>
+                    </div>
+                    <br />
+                </>
+            );
+        }
+        result.push(
+            <>
+                <h2>여자친구 이상형 결과</h2>
+                <br />
+            </>
+        );  
+        for (let i = 0; i < userData.matchingIdxF.length; i++) {
+            result.push(
+                <>
+                    <div class="shadowContainer" key={friendsSet[userData.matchingIdxF[i]].id}>
+                        <h2>{friendsSet[userData.matchingIdxF[i]].name}</h2>
+                        <p>{friendsSet[userData.matchingIdxF[i]].introduce}</p>
+                    </div>
+                    <br />
+                </>
+            );
+        }
+        return result;
+    };     
 
     return (
         <article id="work" class="panel">
@@ -156,9 +239,10 @@ function Game() {
             {userData.state == "RESULT" && (
                 <>
                     <header>
-                        <h2>당신의 이상형은 *** 입니다 ! { userData.score }</h2>
+                        
                     </header>
                     <p>
+                    {resultCardRendering()}
                         <br />
                         <br />
                     </p>

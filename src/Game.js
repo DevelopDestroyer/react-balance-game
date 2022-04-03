@@ -248,7 +248,12 @@ function Game() {
                     </p>
                     <br />
                 </>
-            )}            
+            )}
+            <br />
+            <br />
+            <audio autoPlay controls loop>
+                <source src="assets/music.mp3" type="audio/mp3" />
+            </audio>            
         </article>
     );
 }

@@ -1,5 +1,6 @@
 import './App.css';
 import Game from'./Game';
+import Credits from './Credits';
 import React, { useState } from 'react';
 
 function App() {
@@ -39,7 +40,7 @@ function App() {
         <a href="#" class={ tabsIcon.tab1 + ( tabsActive.tab1 == true ? " active" : "") } onClick={()=>changeTab(1)} ><span>Home</span></a>
         <a href="#" class={ tabsIcon.tab2 + ( tabsActive.tab2 == true ? " active" : "") } onClick={()=>changeTab(2)} ><span>Work</span></a>
         <a href="#" class={ tabsIcon.tab3 + ( tabsActive.tab3 == true ? " active" : "") } onClick={()=>changeTab(3)} ><span>Contact</span></a>
-        <a href="https://twitter.com/ajlkn" class={ tabsIcon.tab4 + ( tabsActive.tab4 == true ? " active" : "") } onClick={()=>changeTab(4)} ><span>Twitter</span></a>
+        <a href="https://www.youtube.com/channel/UCapFukcEW7i01t4VpUY1Kxg" class={ tabsIcon.tab4 + ( tabsActive.tab4 == true ? " active" : "") } onClick={()=>changeTab(4)} ><span>Twitter</span></a>
       </nav>
       <div id="main">
 
@@ -48,7 +49,7 @@ function App() {
         <article id="home" class="panel intro">
           <header>
             <h1>밸런스 게임</h1>
-            <p><img src="./images/pic01.jpg" alt="" />밸런스 게임에 오신 것을 환영합니다 :)</p>
+            <p>밸런스 게임에 오신 것을 환영합니다 :)</p>
             
           </header>
           <a href="#" onClick={()=>changeTab(2)} class="jumplink pic">
@@ -64,33 +65,7 @@ function App() {
         )}
 
         {/* Contact */}
-        { tabsActive.tab3 && (
-        <article id="contact" class="panel">
-          <header>
-            <h2>Contact Me</h2>
-          </header>
-          <form action="#" method="post">
-            <div>
-              <div class="row">
-                <div class="col-6 col-12-medium">
-                  <input type="text" name="name" placeholder="Name" />
-                </div>
-                <div class="col-6 col-12-medium">
-                  <input type="text" name="email" placeholder="Email" />
-                </div>
-                <div class="col-12">
-                  <input type="text" name="subject" placeholder="Subject" />
-                </div>
-                <div class="col-12">
-                  <textarea name="message" placeholder="Message" rows="6"></textarea>
-                </div>
-                <div class="col-12">
-                  <input type="button" value="Send Message" onClick={() => {alert("준비중 입니다."); return false;}} />
-                </div>
-              </div>
-            </div>
-          </form>
-        </article>
+        { tabsActive.tab3 && (<Credits />
         )}
 
       </div>

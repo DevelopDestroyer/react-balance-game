@@ -40,7 +40,7 @@ function App() {
         <a href="#" class={ tabsIcon.tab1 + ( tabsActive.tab1 == true ? " active" : "") } onClick={()=>changeTab(1)} ><span>Home</span></a>
         <a href="#" class={ tabsIcon.tab2 + ( tabsActive.tab2 == true ? " active" : "") } onClick={()=>changeTab(2)} ><span>Work</span></a>
         <a href="#" class={ tabsIcon.tab3 + ( tabsActive.tab3 == true ? " active" : "") } onClick={()=>changeTab(3)} ><span>Contact</span></a>
-        <a href="https://www.youtube.com/channel/UCapFukcEW7i01t4VpUY1Kxg" class={ tabsIcon.tab4 + ( tabsActive.tab4 == true ? " active" : "") } onClick={()=>changeTab(4)} ><span>Twitter</span></a>
+        <a href="https://www.youtube.com/" class={ tabsIcon.tab4 + ( tabsActive.tab4 == true ? " active" : "") } onClick={()=>changeTab(4)} ><span>Twitter</span></a>
       </nav>
       <div id="main">
 

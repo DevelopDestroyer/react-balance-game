@@ -73,8 +73,12 @@ function Game() {
             option2: "이성",
         },        
     ];
+
+    const FADE_IN_CSS = "fade-in-box";
+ 
     const [userData, setUserData] = useState({
         pivot: 0,
+        fadeInCss: FADE_IN_CSS,
         answer: "",
         state: "GAME", /** GAME: 게임 중, COMPLETE: 게임 대기 중, RESULT: 결과화면 */
         friendId: null,
@@ -91,7 +95,20 @@ function Game() {
             calculResult();
         }
     }, [userData.answer]);
-    
+
+    useEffect(() => {
+        document.getElementById("musicBox").volume = 0.3;
+    }, []);
+
+    useEffect(() => {
+        if (userData.fadeInCss == "") {
+            setUserData((prevState) => ({
+                ...prevState,
+                fadeInCss: FADE_IN_CSS
+            }));
+        }
+    }, [userData.fadeInCss]);
+
     const selectOption = (answer) => {
         let nextPivot = userData.pivot;
         if (userData.pivot >= quizSet.length - 1) {
@@ -99,6 +116,7 @@ function Game() {
                 ...prevState,
                 answer: prevState.answer + answer + "",
                 state: "COMPLETE",
+                fadeInCss: "",
             }));
             setTimeout(function() {
                 setUserData((prevState) => ({
@@ -113,6 +131,7 @@ function Game() {
                 ...prevState,
                 answer: prevState.answer + answer + "",
                 pivot: nextPivot,
+                fadeInCss: "",
             }));
         }
     }
@@ -179,14 +198,14 @@ function Game() {
         const result = [];
         result.push(
             <>
-                <h2>남자친구 이상형 결과</h2>
+                <h2 class={FADE_IN_CSS}>남자친구 이상형 결과</h2>
                 <br />
             </>
         );
         for (let i = 0; i < userData.matchingIdxM.length; i++) {
             result.push(
                 <>
-                    <div class="shadowContainer" key={friendsSet[userData.matchingIdxM[i]].id}>
+                    <div class={"shadowContainer"} key={friendsSet[userData.matchingIdxM[i]].id}>
                         <h2>{friendsSet[userData.matchingIdxM[i]].name}</h2>
                         <p>{friendsSet[userData.matchingIdxM[i]].introduce}</p>
                     </div>
@@ -196,7 +215,7 @@ function Game() {
         }
         result.push(
             <>
-                <h2>여자친구 이상형 결과</h2>
+                <h2 class={FADE_IN_CSS}>여자친구 이상형 결과</h2>
                 <br />
             </>
         );  
@@ -218,21 +237,22 @@ function Game() {
         <article id="work" class="panel">
             {userData.state == "GAME" && (
                 <>
-                    <header>
+                    <header class={userData.fadeInCss}>
                         <h2>{quizSet[userData.pivot].question}</h2>
                     </header>
                     <p>
                         <input type="button" value={quizSet[userData.pivot].option1} onClick={() => selectOption("a")} />　　
                         <input type="button" value={quizSet[userData.pivot].option2} onClick={() => selectOption("b")} />
                     </p>
-                    <br />
+                    　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<br />
                     <h5>{quizSet.length} 문항 중 {userData.pivot + 1} 번째</h5>
                 </>
             )}
             {userData.state == "COMPLETE" && (
                 <>
-                    <header>
+                    <header class={userData.fadeInCss}>
                         <h2>결과 분석 중 입니다.</h2>
+                        　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<br />
                     </header>
                 </>
             )}
@@ -251,7 +271,7 @@ function Game() {
             )}
             <br />
             <br />
-            <audio autoPlay controls loop>
+            <audio autoPlay controls loop id="musicBox">
                 <source src="assets/music.mp3" type="audio/mp3" />
             </audio>            
         </article>

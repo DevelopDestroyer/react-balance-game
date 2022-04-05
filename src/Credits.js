@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 function Credits() {
+
+    useEffect(() => {
+        document.getElementById("musicBox").volume = 0.3;
+    }, []);
+    
     return (
         <article id="contact" class="panel">
             <header>
@@ -16,7 +21,7 @@ function Credits() {
 
                     <h3>Development</h3>
                     <p>
-                        EHO<br />(DevelopDestroyer)
+                        EHO
                     </p>
 
                     <h3>Sound supervisor</h3>
@@ -30,8 +35,26 @@ function Credits() {
                         매니주리<br />
                         익생<br />                        
                         탈모<br />
+                        귤<br />
                         씨제이<br />
+                        히요<br />
+                        리아<br />
+                        보호<br />
+                        김예빈<br />
+                        솔<br />
+                        아형이<br />
+                        서연<br />
+                        애기문어<br />
+                        조아양이에양<br />
+                        딩딩이<br />
+                        젠즈<br />
+                        이이<br />
+                        생학<br />
+                        웅이<br />
                         순수동호<br />
+                        갱갱2<br />
+                        김재윤<br />
+                        Minhaz<br />
                         　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<br />
                     </p>
 
@@ -45,8 +68,8 @@ function Credits() {
 
                     <h3>Reference</h3>
                     <p>
-                        <a href="https://www.youtube.com/channel/UCapFukcEW7i01t4VpUY1Kxg" target="_blank">☞ 유튜브 김정달 채널 바로가기 </a><br/><br/>
-                        <a href="https://cafe.naver.com/jeongdal" target="_blank">☞ 달식파 카페 바로가기 </a><br/><br/>
+                        <a href="https://www.youtube.com/" target="_blank">☞ 유튜브 </a><br/><br/>
+                        <a href="https://cafe.naver.com/" target="_blank">☞ 카페 바로가기 </a><br/><br/>
                         ☞ 웹페이지 개발문의<br />
                         developdestroyer@gmail.com 이태호<br /><br />
                         ☞ 나만의 맛집 지도 만들기<br />
@@ -61,7 +84,7 @@ function Credits() {
 
             <br />
             <br />
-            <audio autoPlay controls loop>
+            <audio autoPlay controls loop id="musicBox">
                 <source src="assets/music2.mp3" type="audio/mp3" />
             </audio>
         </article>
